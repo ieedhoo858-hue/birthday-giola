@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surprise For You ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* 1. CSS DASAR & ANIMASI */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background: #fff5f5; 
+            overflow: hidden; /* Mencegah scroll saat animasi */
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .section {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1s ease, visibility 1s;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .section.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* ANIMASI FADE IN */
+        .fade-up { animation: fadeUp 1.2s ease forwards; }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* TOMBOL ESTETIK */
+        button {
+            padding: 15px 35px;
+            border: none;
+            border-radius: 50px;
+            background: #d81b60;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(216, 27, 96, 0.3);
+            transition: 0.3s;
+            margin-top: 20px;
+        }
+        button:hover { transform: scale(1.05); background: #ad1457; }
+
+        /* SLIDE 1: COVER */
+        /* Ganti CSS #cover lama kamu dengan ini */
+#cover { 
+    /* Menggunakan gradasi biru tua ke biru gelap */
+    background: linear-gradient(135deg, #0f71f2, #5f0101, #2c5364); 
+    background-size: 400% 400%;
+    /* Animasi pergerakan warna */
+    animation: gradientBG 10s ease infinite;
+    color: white; 
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+        #cover h1 { font-family: 'Dancing Script', cursive; font-size: 5rem; margin-bottom: 10px; }
+
+        /* SLIDE 2: GAME */
+        .game-board { display: grid; grid-template-columns: repeat(4, 70px); gap: 10px; margin-top: 20px; }
+        .card { width: 70px; height: 70px; background: #d81b60; color: white; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 24px; border-radius: 12px; transition: 0.3s; }
+        .card.flipped { background: white; color: #d81b60; transform: rotateY(180deg); }
+
+        /* SLIDE 3: FLOATING GALLERY */
+       /* --- BARU: CSS GALERI NEON FLOATING --- */
+
+/* 1. Atur Slide Galeri agar bisa di-scroll jika fotonya banyak */
+#gallery {
+    background: #f8f8f8; /* Warna latar gelap agar neon terlihat menyala */
+    overflow-y: auto; /* Membolehkan scroll ke bawah */
+    padding-bottom: 100px; /* Jarak untuk tombol di bawah */
+}
+
+/* 2. Container Judul agar Neon Judul tidak bertumpuk */
+#gallery h2 {
+    color: #0e0e0e;
+    text-shadow: 0 0 10px #ffffff, 0 0 20px #d81b60; /* Efek neon pada judul */
+    z-index: 10;
+    margin-bottom: 25px;
+    background: transparent; /* Hapus background putih sebelumnya */
+}
+
+/* 3. Container Utama untuk Grid Foto */
+#photoContainer {
+    display: grid;
+    /* Membuat grid responsif: otomatis 1 kolom di HP, 2 atau 3 kolom di layar lebih besar */
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
+    gap: 20px; /* Jarak antar foto */
+    width: 90%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* 4. Style untuk Setiap Foto Item */
+.photo-item {
+    width: 100%;
+    height: 180px; /* Tinggi foto seragam */
+    object-fit: cover;
+    border-radius: 12px;
+    border: 3px solid #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    
+    /* --- EFEK NEON --- */
+    /* Membuat shadow neon berwarna pink tua/magenta sesuai tema */
+    filter: drop-shadow(0 0 10px #d81b60); 
+    
+    /* --- ANIMASI FLOATING (MELAYANG) --- */
+    animation: neonFloat 5s ease-in-out infinite;
+    transition: transform 0.3s;
+}
+
+/* 5. Efek saat foto disentuh/hover */
+.photo-item:hover {
+    transform: scale(1.08) translateY(-10px);
+    filter: drop-shadow(0 0 15px #d81b60); /* Neon lebih terang saat disentuh */
+    z-index: 5;
+}
+
+/* 6. Definisi Animasi Neon Melayang */
+@keyframes neonFloat {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        /* Sedikit naik dan sedikit berputar biar kesannya melayang */
+        transform: translateY(-8px) rotate(1deg); 
+    }
+}
+
+/* Sedikit perbaikan posisi tombol di galeri agar tidak menutupi foto terbawah */
+#btnNextWish {
+    display: block;      /* Membuatnya berdiri sendiri di bawah foto */
+    margin: 30px auto;   /* Jarak dari foto-foto di atasnya */
+    position: relative;  /* Bukan absolute lagi */
+    bottom: auto;        /* Hapus posisi paksa */
+    width: 80%;          /* Agar tidak terlalu lebar di HP */
+    padding: 15px;
+}
+
+        /* SLIDE 4: WISH */
+        #wish { background: #fce4ec; }
+        #wish h1 { font-family: 'Dancing Script', cursive; font-size: 4rem; color: #d81b60; }
+        .confetti { position: absolute; width: 10px; height: 10px; background: #f06292; animation: fall 4s linear infinite; }
+        @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
+   /* Animasi Love Jatuh */
+.heart {
+    position: absolute;
+    top: -20px;
+    font-size: 20px;
+    color: #00b4d8; /* Warna biru sesuai tema */
+    animation: falling linear infinite;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+@keyframes falling {
+    to { transform: translateY(100vh) rotate(360deg); }
+}/* Style untuk tulisan nama latin di bawah game */
+/* Ganti .bg-name lama dengan ini */
+.bg-name {
+    position: relative; /* Mengikuti aliran dokumen, tidak menimpa */
+    margin-top: 20px;   /* Memberi jarak dari kotak game */
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.5rem;  /* Sedikit diperkecil agar pas di layar HP */
+    color: rgba(216, 27, 96, 0.6); 
+    text-align: center;
+    width: 100%;
+    z-index: 2;         /* Memastikan dia di depan background */
+    pointer-events: none;
+}
+
+/* Sedikit penyesuaian agar game board tidak menabrak nama di layar kecil */
+#gameSection {
+    justify-content: space-evenly; /* Memberikan ruang antar elemen secara otomatis */
+} /* --- CSS REVISI UNTUK MEMPERBAIKI TAMPILAN HP --- */
+
+.bg-name {
+    position: relative; 
+    margin-top: 20px;   
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.5rem;  
+    color: rgba(216, 27, 96, 0.6); 
+    text-align: center;
+    width: 100%;
+    z-index: 2;         
+    pointer-events: none;
+}
+
+#btnNextWish {
+    display: block;      
+    margin: 30px auto;   
+    position: relative;  
+    bottom: auto;        
+    width: 80%;          
+    padding: 15px;
+    z-index: 10;
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+}/* Style untuk gambar bunga */
+.flower-img {
+    width: 250px;       /* Kamu bisa ubah angka ini untuk memperbesar/kecil */
+    height: auto;       /* Menjaga proporsi gambar agar tidak gepeng */
+    border-radius: 20px; /* Opsional: memberi lengkungan di sudut foto */
+    margin-bottom: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    filter: drop-shadow(0 8px 15px rgba(0,0,0,0.2)); /* Efek shadow agar menonjol */
+}
+    </style>
+</head>
+<body>
+    <audio id="bgMusic" loop>
+    <source src="https://files.catbox.moe/zao4vu.mp4" type="audio/mpeg">
+</audio>
+    <section id="cover" class="section active">
+        <div class="fade-up">
+            <h1>Special for You</h1>
+            <p>I have a little surprise. Are you ready?</p>
+            <button onclick="goToSection('gameSection')">Click Here</button>
+        </div>
+    </section>
+
+    <section id="gameSection" class="section">
+        <h2 style="color: #d81b60;">Level 1: Memory Quest</h2>
+        <p>Temukan semua pasangan untuk lanjut!</p>
+        <div class="game-board" id="board"></div>
+        <div class="bg-name">Giola Alin Pratiwi</div>
+    </section>
+
+    <section id="gallery" class="section">
+        <h2 style="z-index: 10; background: rgba(255,255,255,0.7); padding: 10px 20px; border-radius: 20px;">Unlocking Memories...</h2>
+        <div id="photoContainer"></div>
+        <button id="btnNextWish" class="hidden" onclick="goToSection('wish')" style="z-index: 10; position: absolute; bottom: 50px;">Buka Pesan Terakhir ✨</button>
+    </section>
+
+    <section id="wish" class="section">
+        <div class="fade-up">
+            <h1>Happy Birthday, Cantikkqq! 🎂</h1>
+            <p style="max-width: 600px; margin: 20px auto; font-size: 1.2rem;">
+                Happy Sweet 18! 🎂💖 Semoga semua hal baik datang menghampirimu, 
+                semua impianmu perlahan menjadi kenyataan, dan 
+                setiap langkah yang kamu ambil membawa kebahagiaan serta kesuksesan. 
+                Tetap bersinar dengan caramu sendiri dan jangan pernah ragu dengan kemampuan yang kamu miliki. ✨🌷
+                I love you more than words can say! ❤️
+            </p>
+            <button onclick="goToSection('final')">Ada satu lagi... ✨</button>
+    </section>         
+
+    <section id="final" class="section">
+    <div class="fade-up">
+        <img src="https://i.postimg.cc/1XWJ2Ynf/Screenshot-2026-06-10-073531.png" alt="Bunga" class="flower-img">
+        
+        <h1 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: #d81b60;">For You</h1>
+        
+        <p class="apology-text">
+            "Maaf ya, aku nggak bisa kasih apa-apa yang mewah. 
+            Nih bunga baut kamu hehehe...."
+        </p>
+        
+        <p style="font-weight: bold; color: #d81b60; margin-bottom: 30px;">
+            Happy Birthday, Giola Alin Pratiwi! 🎂💖
+        </p>
+        
+        <button onclick="location.reload()" style="background: #d81b60;">Main Lagi dari Awal</button>
+    </div>
+</section>
+
+    <script>
+        // 2. LOGIKA TRANSISI SLIDE
+    
+    // TAMBAHKAN FUNGSI INI DI SINI:
+    function startExperience() {
+        const music = document.getElementById('bgMusic');
+        music.play();
+        goToSection('gallery'); // Langsung ke slide pertama
+    }
+
+    // FUNGSI LAMAMU:
+    function goToSection(id) {
+        const music = document.getElementById('bgMusic');
+        if (music.paused) {
+            music.play();
+        }
+        music.volume = 0.5;
+        // ... dst
+
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+            if (id === 'gallery') {
+                createFloatingPhotos();
+                // Munculkan tombol ke wish setelah 4 detik di galeri
+                setTimeout(() => {
+                    document.getElementById('btnNextWish').classList.remove('hidden');
+                    document.getElementById('btnNextWish').classList.add('fade-up');
+                }, 4000);
+            }
+            if (id === 'wish') createConfetti();
+        }
+
+        // 3. LOGIKA GAME MEMORY (DENGAN FOTO)
+// Masukkan link foto kamu di sini. 
+// Kamu butuh 8 link foto (karena ada 16 kartu, setiap foto muncul 2 kali)
+const imageUrls = [
+    'https://i.postimg.cc/V6cVhcth/Whats-App-Image-2026-06-09-at-10-52-591.jpg', 'https://i.postimg.cc/V6cVhcth/Whats-App-Image-2026-06-09-at-10-52-591.jpg',
+    'https://i.postimg.cc/MKGrN5n5/Whats-App-Image-2026-06-09-at-10-53-5512.jpg', 'https://i.postimg.cc/MKGrN5n5/Whats-App-Image-2026-06-09-at-10-53-5512.jpg',
+    'https://i.postimg.cc/TwGt9J8N/Whats-App-Image-2026-06-09-at-10-52-59.jpg', 'https://i.postimg.cc/TwGt9J8N/Whats-App-Image-2026-06-09-at-10-52-59.jpg',
+    'https://i.postimg.cc/FKmM2D9q/Whats-App-Image-2025-10-08-at-11-34-54-0f8d9694.jpg', 'https://i.postimg.cc/FKmM2D9q/Whats-App-Image-2025-10-08-at-11-34-54-0f8d9694.jpg',
+    'https://i.postimg.cc/9MWBTXTY/Whats-App-Image-2026-06-09-at-10-53-001.jpg', 'https://i.postimg.cc/9MWBTXTY/Whats-App-Image-2026-06-09-at-10-53-001.jpg',
+    'https://i.postimg.cc/TPcVR8SK/Whats-App-Image-2026-06-09-at-10-53-54.jpg', 'https://i.postimg.cc/TPcVR8SK/Whats-App-Image-2026-06-09-at-10-53-54.jpg',
+    'https://i.postimg.cc/cCvwMvJz/Whats-App-Image-2026-06-09-at-10-53-551.jpg', 'https://i.postimg.cc/cCvwMvJz/Whats-App-Image-2026-06-09-at-10-53-551.jpg',
+    'https://i.postimg.cc/4dShdX1H/Whats-App-Image-2026-06-09-at-10-53-56.jpg', 'https://i.postimg.cc/4dShdX1H/Whats-App-Image-2026-06-09-at-10-53-56.jpg'
+];
+
+imageUrls.sort(() => Math.random() - 0.5);
+
+const board = document.getElementById('board');
+let flippedCards = [];
+let matchedPairs = 0;
+
+imageUrls.forEach(url => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = '?'; // Saat tertutup
+    card.style.backgroundSize = 'cover';
+    card.style.backgroundPosition = 'center';
+
+    card.onclick = () => {
+        if (flippedCards.length < 2 && !card.classList.contains('flipped')) {
+            card.classList.add('flipped');
+            card.innerHTML = ''; // Kosongkan tanda ?
+            card.style.backgroundImage = `url('${url}')`; // Tampilkan foto
+
+            flippedCards.push({card, url});
+
+            if (flippedCards.length === 2) {
+                if (flippedCards[0].url === flippedCards[1].url) {
+                    matchedPairs++;
+                    flippedCards = [];
+                    if (matchedPairs === 8) setTimeout(() => goToSection('gallery'), 1000);
+                } else {
+                    setTimeout(() => {
+                        flippedCards.forEach(f => { 
+                            f.card.classList.remove('flipped'); 
+                            f.card.innerHTML = '?'; 
+                            f.card.style.backgroundImage = 'none'; 
+                        });
+                        flippedCards = [];
+                    }, 700);
+                }
+            }
+        }
+    };
+    board.appendChild(card);
+});
+
+        // 4. GENERATE FOTO MELAYANG (SLIDE 3)
+        function createFloatingPhotos() {
+    const container = document.getElementById('photoContainer');
+    container.innerHTML = ''; // Hapus foto lama jika ada
+    
+    const photoUrls = [
+                'https://i.postimg.cc/CxDYyRbJ/Whats-App-Image-2025-10-08-at-11-34-55-ce2c9cb6.jpg',
+                'https://i.postimg.cc/XN1rcNdg/Whats-App-Image-2026-06-09-at-10-52-58.jpg',
+                'https://i.postimg.cc/W332hrWR/Whats-App-Image-2026-06-09-at-10-52-571.jpg',
+                'https://i.postimg.cc/VNN6b3vB/Whats-App-Image-2026-06-09-at-10-52-592.jpg',
+                'https://i.postimg.cc/vHdZv1Dy/Whats-App-Image-2026-06-09-at-10-52-593.jpg',
+                'https://i.postimg.cc/TPhdPgN9/Whats-App-Image-2026-06-09-at-10-53-01.jpg',
+                'https://i.postimg.cc/C1qwGYgt/Whats-App-Image-2026-06-09-at-10-53-55.jpg',
+                'https://i.postimg.cc/SR3034st/Whats-App-Image-2025-10-08-at-11-34-55-12260735.jpg',
+                'https://i.postimg.cc/FKbDbKxW/Whats-App-Image-2026-06-09-at-10-52-57.jpg',
+                'https://i.postimg.cc/QtxkpJCb/Whats-App-Image-2026-06-09-at-10-52-572.jpg',
+                'https://i.postimg.cc/9MWBTXTY/Whats-App-Image-2026-06-09-at-10-53-001.jpg',
+                'https://i.postimg.cc/Pr3xxzs6/Whats-App-Image-2026-06-10-at-06-56-133.jpg',
+                'https://i.postimg.cc/hj14qV0F/Whats-App-Image-2026-06-10-at-06-56-131.jpg',
+                'https://i.postimg.cc/L5yHJR7f/Whats-App-Image-2026-06-10-at-06-56-14.jpg',
+                'https://i.postimg.cc/dt1szkkH/Whats-App-Image-2026-06-10-at-06-56-13.jpg',
+                'https://i.postimg.cc/15PyqLYc/Whats-App-Image-2026-06-09-at-10-53-553.jpg'
+    ];
+
+    photoUrls.forEach(url => {
+        const img = document.createElement('img');
+        img.src = url;
+        img.className = 'photo-item'; // Pakai class baru
+        img.style.animationDelay = Math.random() * 5 + 's';
+        container.appendChild(img);
+    });
+}
+
+        // 5. EFEK KONFETI (SLIDE 4)
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                const c = document.createElement('div');
+                c.className = 'confetti';
+                c.style.left = Math.random() * 100 + 'vw';
+                c.style.background = `hsl(${Math.random() * 360}, 100%, 70%)`;
+                c.style.animationDelay = Math.random() * 4 + 's';
+                document.body.appendChild(c);
+            }
+        }
+        // 6. EFEK LOVE JATUH
+function createFallingHearts() {
+    setInterval(() => {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.innerHTML = '❤️'; // Menggunakan emoji hati merah
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+        heart.style.opacity = Math.random();
+        document.body.appendChild(heart);
+        
+        // Hapus elemen setelah selesai jatuh
+        setTimeout(() => heart.remove(), 6000);
+    }, 500); 
+}
+
+// Panggil fungsinya
+createFallingHearts();
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              
